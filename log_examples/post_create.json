@@ -1,0 +1,12 @@
+{
+  "user": "alicia.chiang",
+  "action": "POST_CREATE",
+  "data": {
+    "id": "",
+    "type": "ARTICLE",
+    "post": {
+      "title": "Best article name ever",
+      "description": ""
+    }
+  }
+}
