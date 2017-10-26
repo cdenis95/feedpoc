@@ -19,5 +19,5 @@ type PostEditLogData struct {
 }
 
 type PostDeletionLogData struct {
-
+	Id string `json:"id"`
 }

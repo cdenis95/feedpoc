@@ -2,11 +2,11 @@
   "user": "alicia.chiang",
   "action": "POST_CREATE",
   "data": {
-    "id": "",
+    "id": "article125",
     "type": "ARTICLE",
     "post": {
-      "title": "Best article name ever",
-      "description": ""
+      "title": "Best article name ever 5",
+      "description": "qweasdqwe"
     }
   }
 }

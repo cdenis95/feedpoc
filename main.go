@@ -129,6 +129,8 @@ func processLog(l *model.Log) error {
 	switch l.Action {
 	case "POST_CREATE":
 		return processPostCreationLog(l)
+	case "POST_DELETE":
+		return processPostDeletionLog(l)
 	default:
 		return errors.New("Invalid log action: " + l.Action)
 	}
@@ -143,8 +145,12 @@ func processPostCreationLog(l *model.Log) error {
 
 	data := &model.PostCreationLogData{}
 	err = json.Unmarshal(l.Data, data)
+	if err != nil {
+		return err
+	}
 
 	data.Post.Type = data.Type
+	data.Post.Id = data.Id
 
 	// Post will be created based on the log data. For now, just insert the post data in the DB
 
@@ -155,6 +161,28 @@ func processPostCreationLog(l *model.Log) error {
 	}
 	return nil
 }
+
+func processPostDeletionLog(l *model.Log) error {
+	session, err := mgo.Dial(fmt.Sprintf("%s:%s", mongoDbHost, mongoDbPort))
+	if err != nil {
+		return err
+	}
+	defer session.Close()
+
+	data := &model.PostDeletionLogData{}
+	err = json.Unmarshal(l.Data, data)
+	if err != nil {
+		return err
+	}
+
+	c := session.DB("feed").C("posts")
+	err = c.RemoveId(data.Id)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	return nil
+}
+
 
 func readHandler(w http.ResponseWriter, r *http.Request) {
 	session, err := mgo.Dial(fmt.Sprintf("%s:%s", mongoDbHost, mongoDbPort))
