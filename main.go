@@ -199,7 +199,7 @@ func readHandler(w http.ResponseWriter, r *http.Request) {
 	c := session.DB("feed").C("posts")
 
 	posts := []*model.Post{}
-	c.Find(bson.M{}).All(&posts)
+	c.Find(bson.M{}).All(&posts) // TODO Sort by creation timestamp desc
 
 	w.Write(respond(map[string]interface{}{
 		"status":  "ok",
